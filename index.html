@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROI 스튜디오 | 공간을 설계하고 제작합니다</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0f0f0d;
+    --off-white: #f5f2ec;
+    --warm-gray: #b8b0a4;
+    --accent: #c8a96e;
+    --accent-dark: #9e7c42;
+    --text-body: #3a3530;
+    --section-bg: #1a1814;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--off-white);
+    color: var(--text-body);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 48px;
+    background: rgba(15,15,13,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(200,169,110,0.15);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-decoration: none;
+  }
+
+  .nav-logo span {
+    font-style: italic;
+    color: #fff;
+    font-size: 13px;
+    display: block;
+    letter-spacing: 4px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    margin-top: -2px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--warm-gray);
+    text-decoration: none;
+    font-size: 13px;
+    letter-spacing: 1px;
+    transition: color 0.3s;
+    font-weight: 300;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-cta {
+    background: var(--accent);
+    color: var(--black) !important;
+    padding: 10px 22px;
+    border-radius: 2px;
+    font-weight: 500 !important;
+    transition: background 0.3s !important;
+  }
+
+  .nav-cta:hover { background: var(--accent-dark) !important; color: #fff !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    background: var(--black);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 0 80px;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 50%, rgba(200,169,110,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(200,169,110,0.05) 0%, transparent 60%);
+  }
+
+  .hero-grid-line {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(200,169,110,0.15) 30%, rgba(200,169,110,0.15) 70%, transparent);
+  }
+
+  .hero-label {
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.3s;
+  }
+
+  .hero-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(42px, 6vw, 80px);
+    line-height: 1.2;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.5s;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--accent);
+    display: block;
+  }
+
+  .hero-sub {
+    font-size: 16px;
+    color: var(--warm-gray);
+    font-weight: 300;
+    line-height: 1.8;
+    max-width: 500px;
+    margin-top: 8px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.7s;
+  }
+
+  .hero-tags {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 52px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.9s;
+  }
+
+  .hero-tag {
+    border: 1px solid rgba(200,169,110,0.35);
+    color: var(--warm-gray);
+    padding: 7px 16px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    border-radius: 1px;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 16px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.1s;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--black);
+    padding: 16px 36px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: 1px;
+    border-radius: 2px;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-dark);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(200,169,110,0.3);
+  }
+
+  .btn-secondary {
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    padding: 16px 36px;
+    font-size: 14px;
+    font-weight: 300;
+    text-decoration: none;
+    letter-spacing: 1px;
+    border-radius: 2px;
+    transition: all 0.3s;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 80px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--warm-gray);
+    font-size: 11px;
+    letter-spacing: 3px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.3s;
+  }
+
+  .scroll-line {
+    width: 50px;
+    height: 1px;
+    background: var(--warm-gray);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scroll-line::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: var(--accent);
+    animation: scanLine 2s ease infinite 1.5s;
+  }
+
+  .hero-stat {
+    position: absolute;
+    right: 80px;
+    bottom: 100px;
+    text-align: right;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.2s;
+  }
+
+  .hero-stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    color: rgba(200,169,110,0.15);
+    line-height: 1;
+    display: block;
+  }
+
+  .hero-stat-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--warm-gray);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scanLine {
+    0%   { left: -100%; }
+    50%  { left: 100%; }
+    100% { left: 100%; }
+  }
+
+  /* ── WHAT WE DO ── */
+  .what {
+    background: var(--off-white);
+    padding: 120px 80px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 72px;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--black);
+  }
+
+  .section-desc {
+    max-width: 380px;
+    font-size: 14px;
+    line-height: 1.9;
+    color: #7a7168;
+    font-weight: 300;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .service-card {
+    background: var(--black);
+    padding: 52px 40px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s;
+    group: true;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .service-card:hover::before { transform: scaleX(1); }
+
+  .service-card:hover {
+    background: #1a1814;
+  }
+
+  .service-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 56px;
+    color: rgba(200,169,110,0.1);
+    line-height: 1;
+    margin-bottom: 24px;
+    display: block;
+    transition: color 0.4s;
+  }
+
+  .service-card:hover .service-num {
+    color: rgba(200,169,110,0.2);
+  }
+
+  .service-icon {
+    font-size: 28px;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .service-name {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 20px;
+    color: #fff;
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+
+  .service-detail {
+    font-size: 13px;
+    color: var(--warm-gray);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .service-arrow {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(200,169,110,0.25);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent);
+    font-size: 16px;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: all 0.3s;
+  }
+
+  .service-card:hover .service-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* ── PROCESS ── */
+  .process {
+    background: var(--section-bg);
+    padding: 120px 80px;
+  }
+
+  .process .section-title { color: #fff; }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 72px;
+    border: 1px solid rgba(200,169,110,0.15);
+  }
+
+  .process-step {
+    padding: 48px 36px;
+    border-right: 1px solid rgba(200,169,110,0.15);
+    position: relative;
+    transition: background 0.3s;
+  }
+
+  .process-step:last-child { border-right: none; }
+
+  .process-step:hover {
+    background: rgba(200,169,110,0.05);
+  }
+
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    margin-bottom: 32px;
+    display: block;
+  }
+
+  .step-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: var(--warm-gray);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .step-connector {
+    position: absolute;
+    top: 48px;
+    right: -1px;
+    width: 1px;
+    height: 24px;
+    background: var(--accent);
+    opacity: 0.4;
+  }
+
+  /* ── PORTFOLIO ── */
+  .portfolio {
+    background: var(--off-white);
+    padding: 120px 80px;
+  }
+
+  .portfolio-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 52px;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .tab {
+    padding: 12px 28px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: var(--warm-gray);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.3s;
+    font-weight: 300;
+  }
+
+  .tab.active, .tab:hover {
+    color: var(--black);
+    border-bottom-color: var(--accent);
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 280px 280px;
+    gap: 8px;
+  }
+
+  .port-item {
+    position: relative;
+    overflow: hidden;
+    background: var(--black);
+    cursor: pointer;
+  }
+
+  .port-item:first-child {
+    grid-row: 1 / 3;
+  }
+
+  .port-bg {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+  }
+
+  .port-item:hover .port-bg { transform: scale(1.05); }
+
+  .port-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    display: flex;
+    align-items: flex-end;
+    padding: 28px;
+  }
+
+  .port-item:hover .port-overlay { opacity: 1; }
+
+  .port-info-tag {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .port-info-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 18px;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .port-label {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(200,169,110,0.9);
+    color: var(--black);
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 5px 12px;
+    font-weight: 500;
+  }
+
+  /* COLOR BLOCKS for portfolio (placeholder) */
+  .pb-1 { background: linear-gradient(135deg, #1a1410, #2d2318); }
+  .pb-2 { background: linear-gradient(135deg, #141820, #1e2535); }
+  .pb-3 { background: linear-gradient(135deg, #181410, #2a2018); }
+  .pb-4 { background: linear-gradient(135deg, #101418, #1a2228); }
+  .pb-5 { background: linear-gradient(135deg, #141210, #201c18); }
+
+  /* ── CATEGORIES ── */
+  .categories {
+    background: var(--black);
+    padding: 100px 80px;
+  }
+
+  .categories .section-title { color: #fff; }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    margin-top: 56px;
+    background: rgba(200,169,110,0.1);
+  }
+
+  .cat-item {
+    background: var(--black);
+    padding: 40px 28px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid transparent;
+  }
+
+  .cat-item:hover {
+    background: rgba(200,169,110,0.05);
+    border-color: rgba(200,169,110,0.2);
+  }
+
+  .cat-icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .cat-name {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .cat-count {
+    font-size: 11px;
+    color: var(--warm-gray);
+    letter-spacing: 2px;
+  }
+
+  /* ── WHY ── */
+  .why {
+    background: var(--off-white);
+    padding: 120px 80px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    align-items: center;
+  }
+
+  .why-visual {
+    position: relative;
+    height: 520px;
+  }
+
+  .why-box-main {
+    position: absolute;
+    top: 0; left: 0;
+    width: 75%;
+    height: 75%;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 72px;
+  }
+
+  .why-box-accent {
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 55%;
+    height: 55%;
+    background: var(--accent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .why-box-accent-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: var(--black);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .why-box-accent-label {
+    font-size: 12px;
+    color: var(--black);
+    letter-spacing: 2px;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  .why-points {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    margin-top: 48px;
+  }
+
+  .why-point {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+  }
+
+  .why-point-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    color: var(--accent);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .why-point-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 8px;
+  }
+
+  .why-point-desc {
+    font-size: 13px;
+    color: #7a7168;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* ── POSTS ── */
+  .posts {
+    background: #f0ece4;
+    padding: 100px 80px;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 56px;
+  }
+
+  .post-card {
+    background: var(--off-white);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+
+  .post-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 48px rgba(0,0,0,0.1);
+  }
+
+  .post-thumb {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 56px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .post-cat-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: var(--accent);
+    color: var(--black);
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 4px 10px;
+    font-weight: 500;
+  }
+
+  .post-body {
+    padding: 28px 28px 32px;
+  }
+
+  .post-date {
+    font-size: 11px;
+    color: var(--warm-gray);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+
+  .post-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--black);
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+
+  .post-excerpt {
+    font-size: 13px;
+    color: #7a7168;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .post-footer {
+    padding: 16px 28px;
+    border-top: 1px solid rgba(0,0,0,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .post-read {
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--black);
+    padding: 120px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at center, rgba(200,169,110,0.07) 0%, transparent 70%);
+  }
+
+  .cta-label {
+    font-size: 11px;
+    letter-spacing: 5px;
+    color: var(--accent);
+    margin-bottom: 28px;
+  }
+
+  .cta-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(30px, 4vw, 56px);
+    color: #fff;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .cta-sub {
+    font-size: 15px;
+    color: var(--warm-gray);
+    font-weight: 300;
+    line-height: 1.8;
+    max-width: 480px;
+    margin: 0 auto 48px;
+    position: relative;
+  }
+
+  .cta-btns {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0a0a08;
+    padding: 56px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(200,169,110,0.1);
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+
+  .footer-info {
+    font-size: 12px;
+    color: #555;
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .footer-links a {
+    font-size: 12px;
+    color: #555;
+    text-decoration: none;
+    transition: color 0.3s;
+    letter-spacing: 1px;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── FLOATING CONTACT ── */
+  .float-contact {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: var(--accent);
+    color: var(--black);
+    padding: 14px 24px;
+    border-radius: 2px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    z-index: 50;
+    box-shadow: 0 8px 28px rgba(200,169,110,0.4);
+    transition: all 0.3s;
+    letter-spacing: 1px;
+    animation: fadeUp 0.8s ease forwards 2s;
+    opacity: 0;
+  }
+
+  .float-contact:hover {
+    background: var(--accent-dark);
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 36px rgba(200,169,110,0.5);
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(200,169,110,0.3), transparent);
+    margin: 0 80px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 18px 24px; }
+    .nav-links { display: none; }
+    .hero { padding: 0 32px; }
+    .hero-scroll { left: 32px; }
+    .hero-stat { right: 32px; }
+    .what, .process, .portfolio, .categories, .posts, .cta-section { padding: 80px 32px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .portfolio-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .port-item:first-child { grid-row: auto; }
+    .cat-grid { grid-template-columns: repeat(3, 1fr); }
+    .why { grid-template-columns: 1fr; padding: 80px 32px; gap: 48px; }
+    .why-visual { height: 300px; }
+    .posts-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 24px; text-align: center; padding: 40px 24px; }
+    .divider { margin: 0 32px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">ROI<span>STUDIO</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">서비스</a></li>
+    <li><a href="#portfolio">포트폴리오</a></li>
+    <li><a href="#process">제작과정</a></li>
+    <li><a href="#posts">블로그</a></li>
+    <li><a href="#contact" class="nav-cta">제작 문의</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-line"></div>
+
+  <div class="hero-label">ROI STUDIO · 공간연출 제작 스튜디오</div>
+  <h1 class="hero-title">
+    공간이<br>
+    <em>브랜드가 되는 순간</em>
+  </h1>
+  <p class="hero-sub">
+    카페 · 팝업스토어 · 포토존 · 웨딩 공간을<br>
+    목공 구조물 제작부터 플랜테리어까지<br>현장에서 직접 설계하고 완성합니다.
+  </p>
+  <div class="hero-tags">
+    <span class="hero-tag">🏗 무대 · 행사 세트</span>
+    <span class="hero-tag">📸 포토월 · 팝업</span>
+    <span class="hero-tag">💍 웨딩 공간</span>
+    <span class="hero-tag">🌿 플랜테리어</span>
+    <span class="hero-tag">🛒 플리마켓 부스</span>
+  </div>
+  <div class="hero-btns">
+    <a href="#portfolio" class="btn-primary">포트폴리오 보기</a>
+    <a href="#contact" class="btn-secondary">제작 문의하기</a>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    SCROLL
+  </div>
+
+  <div class="hero-stat">
+    <span class="hero-stat-num">ROI</span>
+    <span class="hero-stat-label">re_beststudio</span>
+  </div>
+</section>
+
+<!-- WHAT WE DO -->
+<section class="what" id="services">
+  <div class="section-header">
+    <div>
+      <div class="section-label">What We Do</div>
+      <h2 class="section-title">ROI 스튜디오가<br>만드는 공간</h2>
+    </div>
+    <p class="section-desc">
+      단순한 인테리어가 아닙니다.<br>
+      브랜드의 정체성을 공간으로 번역하고,<br>
+      목공 구조물부터 마지막 소품까지<br>
+      직접 제작하여 완성합니다.
+    </p>
+  </div>
+
+  <div class="services-grid">
+    <div class="service-card">
+      <span class="service-num">01</span>
+      <span class="service-icon">🏗️</span>
+      <div class="service-name">세트 · 공간 제작</div>
+      <p class="service-detail">무대, 행사 세트, 포토월, 전시부스, 팝업스토어까지 목공 구조물 제작부터 현장 설치까지 원스톱으로 진행합니다.</p>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <span class="service-num">02</span>
+      <span class="service-icon">💍</span>
+      <div class="service-name">웨딩 · 플라워 공간 연출</div>
+      <p class="service-detail">특별한 날을 위한 웨딩 공간 연출과 플라워 장식. 하나뿐인 날을 위한 맞춤 공간을 설계합니다.</p>
+      <div class="service-arrow">→</div>
+    </div>
+    <div class="service-card">
+      <span class="service-num">03</span>
+      <span class="service-icon">🛒</span>
+      <div class="service-name">플리마켓 · 브랜드 부스</div>
+      <p class="service-detail">브랜드 아이덴티티를 담은 플리마켓 부스와 커스텀 오브제. 소량 제작도 가능합니다.</p>
+      <div class="service-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="section-label" style="color: var(--accent)">How We Work</div>
+  <h2 class="section-title" style="color:#fff">제작 프로세스</h2>
+
+  <div class="process-steps">
+    <div class="process-step">
+      <span class="step-num">STEP 01</span>
+      <div class="step-title">상담 · 기획</div>
+      <p class="step-desc">공간의 목적과 브랜드 방향성을 파악합니다. 예산, 일정, 콘셉트를 함께 논의합니다.</p>
+    </div>
+    <div class="process-step">
+      <span class="step-num">STEP 02</span>
+      <div class="step-title">디자인 · 설계</div>
+      <p class="step-desc">현장 실측 후 도면 작성. 3D 시뮬레이션으로 최종 결과물을 미리 확인합니다.</p>
+    </div>
+    <div class="process-step">
+      <span class="step-num">STEP 03</span>
+      <div class="step-title">목공 · 제작</div>
+      <p class="step-desc">구조물, 오브제, 소품까지 직접 제작. 외주 없이 내부에서 완성하여 품질을 보장합니다.</p>
+    </div>
+    <div class="process-step">
+      <span class="step-num">STEP 04</span>
+      <div class="step-title">현장 설치 · 완성</div>
+      <p class="step-desc">현장에서 직접 설치 및 마감. 공간이 완성되는 순간까지 함께합니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Portfolio</div>
+      <h2 class="section-title">제작 포트폴리오</h2>
+    </div>
+  </div>
+
+  <div class="portfolio-tabs">
+    <div class="tab active">전체</div>
+    <div class="tab">팝업스토어</div>
+    <div class="tab">포토월</div>
+    <div class="tab">웨딩</div>
+    <div class="tab">전시부스</div>
+    <div class="tab">플리마켓</div>
+  </div>
+
+  <div class="portfolio-grid">
+    <div class="port-item">
+      <div class="port-bg pb-1" style="font-size:80px">🏗️</div>
+      <span class="port-label">POPUP</span>
+      <div class="port-overlay">
+        <div>
+          <div class="port-info-tag">팝업스토어</div>
+          <div class="port-info-title">브랜드 팝업 공간 제작</div>
+        </div>
+      </div>
+    </div>
+    <div class="port-item">
+      <div class="port-bg pb-2" style="font-size:52px">📸</div>
+      <span class="port-label">PHOTO</span>
+      <div class="port-overlay">
+        <div>
+          <div class="port-info-tag">포토월</div>
+          <div class="port-info-title">컨셉 포토월</div>
+        </div>
+      </div>
+    </div>
+    <div class="port-item">
+      <div class="port-bg pb-3" style="font-size:52px">💍</div>
+      <span class="port-label">WEDDING</span>
+      <div class="port-overlay">
+        <div>
+          <div class="port-info-tag">웨딩</div>
+          <div class="port-info-title">웨딩 공간 연출</div>
+        </div>
+      </div>
+    </div>
+    <div class="port-item">
+      <div class="port-bg pb-4" style="font-size:52px">🌿</div>
+      <span class="port-label">FLOWER</span>
+      <div class="port-overlay">
+        <div>
+          <div class="port-info-tag">플랜테리어</div>
+          <div class="port-info-title">플라워 구조물</div>
+        </div>
+      </div>
+    </div>
+    <div class="port-item">
+      <div class="port-bg pb-5" style="font-size:52px">🛒</div>
+      <span class="port-label">MARKET</span>
+      <div class="port-overlay">
+        <div>
+          <div class="port-info-tag">플리마켓</div>
+          <div class="port-info-title">브랜드 부스 제작</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories">
+  <div class="section-label">Categories</div>
+  <h2 class="section-title">카테고리별 보기</h2>
+
+  <div class="cat-grid">
+    <div class="cat-item">
+      <span class="cat-icon">🏗️</span>
+      <div class="cat-name">무대·행사 세트</div>
+      <div class="cat-count">게시물 보기 →</div>
+    </div>
+    <div class="cat-item">
+      <span class="cat-icon">📸</span>
+      <div class="cat-name">포토월</div>
+      <div class="cat-count">게시물 보기 →</div>
+    </div>
+    <div class="cat-item">
+      <span class="cat-icon">🎪</span>
+      <div class="cat-name">팝업스토어</div>
+      <div class="cat-count">게시물 보기 →</div>
+    </div>
+    <div class="cat-item">
+      <span class="cat-icon">💍</span>
+      <div class="cat-name">웨딩 공간</div>
+      <div class="cat-count">게시물 보기 →</div>
+    </div>
+    <div class="cat-item">
+      <span class="cat-icon">🌿</span>
+      <div class="cat-name">플라워 구조물</div>
+      <div class="cat-count">게시물 보기 →</div>
+    </div>
+    <div class="cat-item">
+      <span class="cat-icon">🛒</span>
+      <div class="cat-name">플리마켓·브랜드부스</div>
+      <div class="cat-count">게시물 보기 →</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why">
+  <div class="why-visual">
+    <div class="why-box-main">🔨</div>
+    <div class="why-box-accent">
+      <div class="why-box-accent-num">100%</div>
+      <div class="why-box-accent-label">직접 제작</div>
+    </div>
+  </div>
+
+  <div>
+    <div class="section-label">Why ROI</div>
+    <h2 class="section-title">ROI 스튜디오를<br>선택하는 이유</h2>
+
+    <div class="why-points">
+      <div class="why-point">
+        <div class="why-point-num">01</div>
+        <div>
+          <div class="why-point-title">외주 없이 직접 제작</div>
+          <p class="why-point-desc">목공 구조물부터 소품까지 전 과정을 내부에서 직접 제작합니다. 중간 마진 없이 합리적인 비용으로 높은 품질을 제공합니다.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-point-num">02</div>
+        <div>
+          <div class="why-point-title">현장 직접 설치 · 관리</div>
+          <p class="why-point-desc">제작 후 현장에서 직접 설치까지. 공간이 완성되는 마지막 순간까지 책임지고 함께합니다.</p>
+        </div>
+      </div>
+      <div class="why-point">
+        <div class="why-point-num">03</div>
+        <div>
+          <div class="why-point-title">소량 · 맞춤 제작 가능</div>
+          <p class="why-point-desc">대량 생산이 아닌 브랜드에 맞는 맞춤 제작. 소량도 정성껏 만들어드립니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POSTS -->
+<section class="posts" id="posts">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Blog</div>
+      <h2 class="section-title">최근 작업 · 제작 노하우</h2>
+    </div>
+    <a href="#" class="btn-primary" style="font-size:13px; padding: 12px 24px;">전체 글 보기</a>
+  </div>
+
+  <div class="posts-grid">
+    <div class="post-card">
+      <div class="post-thumb pb-1">🏗️
+        <span class="post-cat-badge">팝업스토어</span>
+      </div>
+      <div class="post-body">
+        <div class="post-date">2026 · 01 · 07</div>
+        <div class="post-title">2026, 새로운 제작 환경에 맞는 세트 제작 파트너</div>
+        <p class="post-excerpt">변화하는 팝업 트렌드에 맞춰 ROI 스튜디오가 준비한 새로운 제작 방향을 소개합니다.</p>
+      </div>
+      <div class="post-footer">
+        <span class="post-read">READ MORE →</span>
+        <span style="font-size:11px; color: var(--warm-gray)">공지</span>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-thumb pb-2">📸
+        <span class="post-cat-badge">포토월</span>
+      </div>
+      <div class="post-body">
+        <div class="post-date">2025 · 12 · 18</div>
+        <div class="post-title">브랜드가 살아있는 포토월, 이렇게 만들었습니다</div>
+        <p class="post-excerpt">단순한 배경이 아닌, 브랜드 아이덴티티를 담은 포토월 제작 과정을 공유합니다.</p>
+      </div>
+      <div class="post-footer">
+        <span class="post-read">READ MORE →</span>
+        <span style="font-size:11px; color: var(--warm-gray)">제작일지</span>
+      </div>
+    </div>
+
+    <div class="post-card">
+      <div class="post-thumb pb-3">💍
+        <span class="post-cat-badge">웨딩</span>
+      </div>
+      <div class="post-body">
+        <div class="post-date">2025 · 11 · 30</div>
+        <div class="post-title">야외 웨딩 플라워 아치, 제작부터 설치까지</div>
+        <p class="post-excerpt">하루를 위한 특별한 공간. 목공 구조물 위에 플랜테리어를 더한 웨딩 아치 제작기.</p>
+      </div>
+      <div class="post-footer">
+        <span class="post-read">READ MORE →</span>
+        <span style="font-size:11px; color: var(--warm-gray)">웨딩</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="cta-bg"></div>
+  <div class="cta-label">GET IN TOUCH</div>
+  <h2 class="cta-title">
+    공간 제작을<br>함께 시작할까요?
+  </h2>
+  <p class="cta-sub">
+    카페, 팝업스토어, 웨딩, 전시까지<br>
+    어떤 공간이든 문의해 주세요.<br>
+    빠르게 검토 후 연락드립니다.
+  </p>
+  <div class="cta-btns">
+    <a href="#" class="btn-primary">네이버 블로그 문의</a>
+    <a href="#" class="btn-secondary">인스타그램 DM</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">ROI STUDIO</div>
+    <div style="font-size:11px; color:#444; letter-spacing:2px; margin-top:4px;">re_beststudio</div>
+  </div>
+  <div class="footer-info">
+    공간연출 제작 스튜디오<br>
+    카페 · 매장 · 팝업스토어 · 포토존 · 웨딩
+  </div>
+  <div class="footer-links">
+    <a href="#">포트폴리오</a>
+    <a href="#">제작 문의</a>
+    <a href="#">인스타그램</a>
+    <a href="#">네이버 블로그</a>
+  </div>
+</footer>
+
+<!-- FLOATING CONTACT -->
+<a href="#contact" class="float-contact">💬 제작 문의하기</a>
+
+<script>
+  // Tab switching
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.service-card, .process-step, .post-card, .cat-item, .why-point').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
